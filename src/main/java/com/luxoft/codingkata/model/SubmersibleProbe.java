@@ -8,32 +8,47 @@ public class SubmersibleProbe {
     private int y;
     private char direction;
     private final List<String> visitedCoordinates = new ArrayList<>();
+    private OceanGrid oceanGrid;
 
-    public SubmersibleProbe(int x, int y, char direction) {
+    public SubmersibleProbe(int x, int y, char direction,OceanGrid oceanGrid) {
         this.x = x;
         this.y = y;
         this.direction = direction;
+        this.oceanGrid = oceanGrid;
         visitedCoordinates.add("(" + x + ", " + y + ")");
+
     }
 
     public void moveForward() {
+        int newX = x;
+        int newY = y;
         switch (direction) {
-            case 'N': y++; break;
-            case 'S': y--; break;
-            case 'E': x++; break;
-            case 'W': x--; break;
+            case 'N': newY++; break;
+            case 'S': newY--; break;
+            case 'E': newX++; break;
+            case 'W': newX--; break;
         }
-        visitedCoordinates.add("(" + x + ", " + y + ")");
+        if (oceanGrid.isValidPosition(newX, newY) && !oceanGrid.isObstacle(newX, newY)) {
+            x = newX;
+            y = newY;
+            visitedCoordinates.add("(" + x + ", " + y + ")");
+        }
     }
 
     public void moveBackward() {
+        int newX = x;
+        int newY = y;
         switch (direction) {
-            case 'N': y--; break;
-            case 'S': y++; break;
-            case 'E': x--; break;
-            case 'W': x++; break;
+            case 'N': newY--; break;
+            case 'S': newY++; break;
+            case 'E': newX--; break;
+            case 'W': newX++; break;
         }
-        visitedCoordinates.add("(" + x + ", " + y + ")");
+        if (oceanGrid.isValidPosition(newX, newY) && !oceanGrid.isObstacle(newX, newY)) {
+            x = newX;
+            y = newY;
+            visitedCoordinates.add("(" + x + ", " + y + ")");
+        }
     }
 
     public void turnLeft() {
